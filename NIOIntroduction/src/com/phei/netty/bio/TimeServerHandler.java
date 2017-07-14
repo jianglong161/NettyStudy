@@ -34,8 +34,7 @@ public class TimeServerHandler implements Runnable{
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");	
 				currentTime = "QUERY TIME ORDER".equalsIgnoreCase(body) ? 
 						sf.format(new Date()) : "BAD ORDER";
-						
-						
+						       
 			}
 		} catch (Exception e) {
 			if(in != null){
