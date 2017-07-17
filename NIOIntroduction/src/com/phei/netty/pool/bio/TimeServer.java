@@ -1,10 +1,13 @@
-package com.phei.netty.bio;
+package com.phei.netty.pool.bio;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.phei.netty.bio.TimeServerHandler;
+
 /**
- * 同步阻塞IO的TimerServer
+ * 伪异步io的TimerSever
  * @author Still2Almost
  *
  */
@@ -14,27 +17,29 @@ public class TimeServer {
 		if(args != null && args.length > 0){
 			try {
 				port = Integer.valueOf(args[0]);
+				
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
 				//采用默认值
 			}
 		}
 		ServerSocket server = null;
 		try {
 			server = new ServerSocket(port);
-			System.out.println("The time server is start in port" + port);
+			System.out.println("The timeServer is start in port :" + port);
 			Socket socket = null;
-			socket = server.accept();
+			TimeServerHandelerExecutiPool pool = 
+					new TimeServerHandelerExecutiPool(50, 1000);
 			while(true){
-				
-				new Thread(new TimeServerHandler(socket)).start();
+				socket = server.accept();
+				pool.execute(new TimeServerHandler(socket));
 			}
-		} finally {
+			
+		}finally {
 			if(server != null){
-				System.out.println("The time server is close");
+				System.out.println("The time server close");
 				server.close();
-				server =null;
+				server = null;
 			}
-		}
+		}  
 	}
 }

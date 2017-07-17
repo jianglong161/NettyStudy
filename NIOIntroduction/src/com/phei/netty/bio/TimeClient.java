@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Í¬²½×èÈûIOµÄTimeClient
@@ -29,7 +30,10 @@ public class TimeClient {
 			in = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 			out = new PrintWriter(socket.getOutputStream());
-			out.println("QUERY TIME ORDER");
+			Scanner scanner = new Scanner(System.in);
+			String name = scanner.nextLine();
+			out.println(name);
+			//out.println("QUERY TIME ORDER");
 			System.out.println("Send order 2 server succedd");
 			String resp = in.readLine();
 			System.out.println("Now is" + resp);
